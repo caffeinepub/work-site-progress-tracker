@@ -174,7 +174,7 @@ export function EditWorkOrderModal({
                 htmlFor="edit-workerName"
                 className="text-muted-foreground text-xs uppercase tracking-wider font-semibold"
               >
-                Worker Name
+                Items Ordered
               </Label>
               <Input
                 id="edit-workerName"

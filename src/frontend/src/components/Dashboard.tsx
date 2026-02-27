@@ -8,8 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useActor } from "@/hooks/useActor";
-import { useSeeding, useWorkOrders } from "@/hooks/useQueries";
+import { useWorkOrders } from "@/hooks/useQueries";
 import type { WorkOrder } from "@/hooks/useQueries";
 import {
   ClipboardList,
@@ -19,7 +18,7 @@ import {
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { EditWorkOrderModal } from "./EditWorkOrderModal";
 import { NewWorkOrderModal } from "./NewWorkOrderModal";
 import { STATUS_OPTIONS } from "./StatusBadge";
@@ -35,18 +34,7 @@ export function Dashboard() {
   const [workerFilter, setWorkerFilter] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { actor, isFetching: actorLoading } = useActor();
   const { data: workOrders, isLoading } = useWorkOrders();
-  const seedMutation = useSeeding();
-  const hasSeedAttempted = useRef(false);
-
-  // Seed on first load when actor is ready
-  useEffect(() => {
-    if (actor && !actorLoading && !hasSeedAttempted.current) {
-      hasSeedAttempted.current = true;
-      seedMutation.mutate();
-    }
-  }, [actor, actorLoading, seedMutation]);
 
   function handleEdit(wo: WorkOrder) {
     setEditTarget(wo);
@@ -109,12 +97,16 @@ export function Dashboard() {
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-6">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center">
-                <ClipboardList className="w-5 h-5 text-primary" />
+              <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center">
+                <img
+                  src="/assets/uploads/Screenshot_20260228_011607_WhatsAppBusiness-1.jpg"
+                  alt="ARS Associates Logo"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
                 <h1 className="font-display text-2xl font-bold text-foreground tracking-tight leading-none">
-                  Site Progress
+                  ARS Work Details
                 </h1>
                 <p className="text-xs text-muted-foreground mt-0.5 tracking-wide uppercase font-medium">
                   Work Order Tracker
@@ -267,7 +259,7 @@ export function Dashboard() {
         </motion.div>
 
         {/* Loading state */}
-        {(isLoading || seedMutation.isPending) && (
+        {isLoading && (
           <div className="space-y-3">
             {(["a", "b", "c"] as const).map((sk) => (
               <div
@@ -296,7 +288,6 @@ export function Dashboard() {
 
         {/* Work orders list */}
         {!isLoading &&
-          !seedMutation.isPending &&
           (filteredOrders.length === 0 ? (
             <motion.div
               initial={{ opacity: 0 }}

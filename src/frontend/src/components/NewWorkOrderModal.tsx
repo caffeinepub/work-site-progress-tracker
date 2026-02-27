@@ -20,6 +20,7 @@ interface NewWorkOrderModalProps {
 
 interface FormState {
   customerName: string;
+  phoneNumber: string;
   workerName: string;
   dateOfWork: string;
   dueDate: string;
@@ -27,6 +28,7 @@ interface FormState {
 
 const empty: FormState = {
   customerName: "",
+  phoneNumber: "",
   workerName: "",
   dateOfWork: "",
   dueDate: "",
@@ -47,6 +49,7 @@ export function NewWorkOrderModal({
     e.preventDefault();
     if (
       !form.customerName.trim() ||
+      !form.phoneNumber.trim() ||
       !form.workerName.trim() ||
       !form.dateOfWork ||
       !form.dueDate
@@ -56,7 +59,7 @@ export function NewWorkOrderModal({
     }
     try {
       await createMutation.mutateAsync({
-        customerName: form.customerName.trim(),
+        customerName: `${form.customerName.trim()} | ${form.phoneNumber.trim()}`,
         dateOfWork: form.dateOfWork,
         dueDate: form.dueDate,
         workerName: form.workerName.trim(),
@@ -91,22 +94,42 @@ export function NewWorkOrderModal({
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-5 py-2">
-          <div className="space-y-2">
-            <Label
-              htmlFor="customerName"
-              className="text-muted-foreground text-xs uppercase tracking-wider font-semibold"
-            >
-              Customer Name
-            </Label>
-            <Input
-              id="customerName"
-              placeholder="e.g. Hartfield Construction Co."
-              value={form.customerName}
-              onChange={(e) => handleChange("customerName", e.target.value)}
-              disabled={createMutation.isPending}
-              className="bg-input border-border focus:ring-primary/30 text-foreground placeholder:text-muted-foreground/50"
-              autoComplete="organization"
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label
+                htmlFor="customerName"
+                className="text-muted-foreground text-xs uppercase tracking-wider font-semibold"
+              >
+                Name
+              </Label>
+              <Input
+                id="utitca"
+                placeholder="e.g. John Smith"
+                value={form.customerName}
+                onChange={(e) => handleChange("customerName", e.target.value)}
+                disabled={createMutation.isPending}
+                className="bg-input border-border focus:ring-primary/30 text-foreground placeholder:text-muted-foreground/50"
+                autoComplete="name"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label
+                htmlFor="phoneNumber"
+                className="text-muted-foreground text-xs uppercase tracking-wider font-semibold"
+              >
+                Phone Number
+              </Label>
+              <Input
+                id="phoneNumber"
+                placeholder="e.g. 555-123-4567"
+                value={form.phoneNumber}
+                onChange={(e) => handleChange("phoneNumber", e.target.value)}
+                disabled={createMutation.isPending}
+                className="bg-input border-border focus:ring-primary/30 text-foreground placeholder:text-muted-foreground/50"
+                autoComplete="tel"
+                type="tel"
+              />
+            </div>
           </div>
 
           <div className="space-y-2">
@@ -114,11 +137,11 @@ export function NewWorkOrderModal({
               htmlFor="workerName"
               className="text-muted-foreground text-xs uppercase tracking-wider font-semibold"
             >
-              Worker Name
+              Items Ordered
             </Label>
             <Input
               id="workerName"
-              placeholder="e.g. Marcus Rivera"
+              placeholder="e.g. Lumber, concrete, fixtures"
               value={form.workerName}
               onChange={(e) => handleChange("workerName", e.target.value)}
               disabled={createMutation.isPending}
