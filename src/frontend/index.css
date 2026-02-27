@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Font Faces ───────────────────────────────────────────── */
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/assets/fonts/CabinetGrotesk-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "General Sans";
+  src: url("/assets/fonts/GeneralSans-Variable.woff2") format("woff2");
+  font-weight: 200 700;
+  font-display: swap;
+}
+
+/* ─── Design Tokens ────────────────────────────────────────── */
+@layer base {
+  :root {
+    --radius: 0.5rem;
+
+    /* Core palette — deep slate + amber accent */
+    --background:     0.13 0.008 250;
+    --foreground:     0.92 0.008 250;
+
+    --card:           0.17 0.01 250;
+    --card-foreground: 0.92 0.008 250;
+
+    --popover:        0.19 0.012 250;
+    --popover-foreground: 0.92 0.008 250;
+
+    --primary:        0.72 0.17 55;
+    --primary-foreground: 0.12 0.008 250;
+
+    --secondary:      0.24 0.014 250;
+    --secondary-foreground: 0.82 0.01 250;
+
+    --muted:          0.22 0.012 250;
+    --muted-foreground: 0.55 0.01 250;
+
+    --accent:         0.28 0.016 250;
+    --accent-foreground: 0.92 0.008 250;
+
+    --destructive:    0.55 0.22 28;
+    --destructive-foreground: 0.97 0 0;
+
+    --border:         0.28 0.014 250;
+    --input:          0.24 0.012 250;
+    --ring:           0.72 0.17 55;
+
+    /* Status tokens */
+    --status-pending:    0.75 0.16 60;
+    --status-pending-bg: 0.20 0.04 60;
+    --status-inprogress:    0.65 0.18 240;
+    --status-inprogress-bg: 0.18 0.05 240;
+    --status-completed:    0.68 0.17 145;
+    --status-completed-bg: 0.17 0.05 145;
+
+    /* Chart */
+    --chart-1: 0.72 0.17 55;
+    --chart-2: 0.65 0.18 240;
+    --chart-3: 0.68 0.17 145;
+    --chart-4: 0.55 0.22 28;
+    --chart-5: 0.62 0.16 300;
+
+    --sidebar: 0.15 0.01 250;
+    --sidebar-foreground: 0.92 0.008 250;
+    --sidebar-primary: 0.72 0.17 55;
+    --sidebar-primary-foreground: 0.12 0.008 250;
+    --sidebar-accent: 0.22 0.012 250;
+    --sidebar-accent-foreground: 0.92 0.008 250;
+    --sidebar-border: 0.28 0.014 250;
+    --sidebar-ring: 0.72 0.17 55;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "General Sans", ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: "ss01", "ss02";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Cabinet Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+  }
+}
+
+/* ─── Custom Utilities ─────────────────────────────────────── */
+@layer utilities {
+  .status-pending {
+    color: oklch(var(--status-pending));
+    background-color: oklch(var(--status-pending-bg));
+  }
+  .status-inprogress {
+    color: oklch(var(--status-inprogress));
+    background-color: oklch(var(--status-inprogress-bg));
+  }
+  .status-completed {
+    color: oklch(var(--status-completed));
+    background-color: oklch(var(--status-completed-bg));
+  }
+  .steel-surface {
+    background: linear-gradient(
+      135deg,
+      oklch(0.20 0.015 250) 0%,
+      oklch(0.17 0.01 250) 50%,
+      oklch(0.19 0.012 250) 100%
+    );
+  }
+  .grid-texture {
+    background-image:
+      linear-gradient(oklch(0.92 0.008 250 / 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(0.92 0.008 250 / 0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+}
